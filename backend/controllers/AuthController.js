@@ -55,7 +55,7 @@ exports.login = async (req, res) => {
 
             // Add token to cookie
             res.cookie('token', token, {
-                httpOnly:true,
+                httpOnly: true,
                 secure: false,
                 maxAge: 3600000 // 1 hour
             })
