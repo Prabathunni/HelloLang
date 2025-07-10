@@ -1,0 +1,16 @@
+# Node
+backend/node_modules/
+backend/.env
+
+# React (already handled inside frontend/, but add just in case)
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+# System files
+.DS_Store
+*.log
+.env
+
+# General
+*.log
