@@ -6,7 +6,7 @@ exports.sendFriendRequest = async (req, res) => {
     console.log("inside sendFriendRequest controller");
 
     try {
-        const { receiver } = req.body;
+        const receiver  = req.params.id;
         const sender = req.userId; // from jwt middleware
 
         const existingRequest = await FriendRequest.findOne({ sender, receiver })

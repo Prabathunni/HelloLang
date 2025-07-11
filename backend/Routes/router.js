@@ -3,7 +3,8 @@ const { register, login } = require('../controllers/AuthController')
 const jwtMiddleware = require('../middlewares/jwtMiddleware')
 const { getUserProfile, updateUserProfile } = require('../controllers/profileManage')
 const { sendFriendRequest, acceptFriendRequest, rejectFriendRequest, getAllRequests } = require('../controllers/friendSystem')
-const { getUsersForSideBar, getUserMessageController } = require('../controllers/MessageController')
+const { getUsersForSideBar, getUserMessageController, sendMessageToUserController } = require('../controllers/MessageController')
+const upload = require('../middlewares/multer')
 const router = express.Router()
 
 // USER AUTH LOGIN AND REGISTER___________________________________________
@@ -18,7 +19,7 @@ router.post('/api/user/:id', jwtMiddleware , updateUserProfile)
 
 // FRIEND SYSTEM______________________________________________
 // send friend request
-router.post('/api/friends',jwtMiddleware, sendFriendRequest)
+router.post('/api/friends/:id/request',jwtMiddleware, sendFriendRequest)
 // accept req
 router.put('/api/friends/:id/accept', jwtMiddleware, acceptFriendRequest)
 // reject req
@@ -33,6 +34,9 @@ router.get('/api/friends',jwtMiddleware, getAllRequests)
 router.get('/api/messages/users',jwtMiddleware, getUsersForSideBar)
 // load a users messages
 router.get('/api/messages/:id',jwtMiddleware, getUserMessageController)
+// send a message ---text+image ~ multer+cloudinary
+router.post('/api/messages/:id/send',jwtMiddleware, upload.single('image'), sendMessageToUserController)
+
 
 
 
