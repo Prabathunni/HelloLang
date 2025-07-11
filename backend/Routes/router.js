@@ -3,7 +3,7 @@ const { register, login } = require('../controllers/AuthController')
 const jwtMiddleware = require('../middlewares/jwtMiddleware')
 const { getUserProfile, updateUserProfile } = require('../controllers/profileManage')
 const { sendFriendRequest, acceptFriendRequest, rejectFriendRequest, getAllRequests } = require('../controllers/friendSystem')
-const { getUsersForSideBar } = require('../controllers/MessageController')
+const { getUsersForSideBar, getUserMessageController } = require('../controllers/MessageController')
 const router = express.Router()
 
 // USER AUTH LOGIN AND REGISTER___________________________________________
@@ -31,6 +31,8 @@ router.get('/api/friends',jwtMiddleware, getAllRequests)
 // REAL-TIME CHAT SYSTEM_____________________________________
 // users for sidebar
 router.get('/api/messages/users',jwtMiddleware, getUsersForSideBar)
+// load a users messages
+router.get('/api/messages/:id',jwtMiddleware, getUserMessageController)
 
 
 
