@@ -1,5 +1,5 @@
-const userModel = require('../model/userSchema');
-const FriendRequest = require('../model/FriendRequestSchema');
+const userModel = require('../model/userSchema.js');
+const FriendRequest = require('../model/FriendRequestSchema.js');
 
 
 exports.sendFriendRequest = async (req, res) => {
@@ -27,21 +27,17 @@ exports.sendFriendRequest = async (req, res) => {
 
 }
 
-
-exports.acceptFriendRequest = async (req, res) => {
-    console.log("Inside add friend request controller");
+exports.rejectFriendRequest = async (req, res) => {
+    console.log("Inside reject friend request controller");
     try {
-        const request = await FriendRequest.findById(req.params.id);
-        console.log(req.params.id);
-        
-        console.log(request);
-        
+        const request = await FriendRequest.findById(req.params.id);                
         if (!request || request.status !== 'pending') {
             return res.status(404).json({ msg: "Invalid or expired request" });
         }
 
-        request.status='accepted';
-        res.status(200).json({ msg: "ok",request });
+        await request.deleteOne();
+
+        res.status(200).json("Request deleted / cancelled");
 
     } catch (error) {
         console.error("Error sending friend request:", error);
@@ -49,4 +45,41 @@ exports.acceptFriendRequest = async (req, res) => {
     }
 
 
+}
+
+exports.acceptFriendRequest = async (req, res) => {
+    console.log("Inside add friend request controller");
+    try {
+        const request = await FriendRequest.findById(req.params.id);                
+        if (!request || request.status !== 'pending') {
+            return res.status(404).json({ msg: "Invalid or expired request" });
+        }
+
+        request.status='accepted';
+        await request.save();
+
+        // add friends to both sender usermodel and reciever user model
+        await userModel.findByIdAndUpdate(request.sender, { $push: {friends: request.receiver} })
+        await userModel.findByIdAndUpdate(request.receiver, { $push: {friends: request.sender} })
+
+        res.status(200).json("Request Accepted");
+
+    } catch (error) {
+        console.error("Error sending friend request:", error);
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+
+
+}
+
+exports.getAllRequests = async (req,res) => {
+    console.log("Inside get all req controller");
+    try {
+        const user = await userModel.findById(req.userId).populate('friends', 'username profilePicture');
+        if(!user) return res.status(404).json("user not found")
+        res.status(200).json(user.friends);
+    } catch (error) {
+        console.error("Error sending friend request:", error);
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
 }

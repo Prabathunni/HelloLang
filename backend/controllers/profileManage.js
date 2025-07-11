@@ -1,4 +1,4 @@
-const userModel = require('../model/userSchema');
+const userModel = require('../model/userSchema.js');
 
 exports.getUserProfile = async (req, res) => {
     console.log("inside getUserProfile controller");
