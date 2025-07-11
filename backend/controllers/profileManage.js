@@ -24,7 +24,11 @@ exports.updateUserProfile = async (req, res) => {
     try {
 
         const userId = req.params.id;
-        const { bio, profilePicture } = req.body;
+        const { bio, profilePicture, languagesSpoken , languagesToLearn} = req.body;
+
+        if(!bio || !profilePicture || !languagesSpoken || !languagesToLearn) {
+            return res.status(400).json({ message: "No fields to update" });
+        }
 
         const user = await userModel.findById(userId);
         if (!user) {
@@ -33,6 +37,11 @@ exports.updateUserProfile = async (req, res) => {
             // Update user profile
             user.bio = bio || user.bio;
             user.profilePicture = profilePicture || user.profilePicture;
+            user.languagesSpoken.push(...languagesSpoken.filter(lang => !user.languagesSpoken.includes(lang)));
+            
+            if(languagesToLearn){
+               user.languagesToLearn.push(...languagesToLearn.filter(lang => !user.languagesToLearn.includes(lang)));
+            }
 
             await user.save();
             res.status(200).json({ message: "User profile updated successfully", user });

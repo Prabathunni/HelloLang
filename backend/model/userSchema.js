@@ -14,8 +14,8 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-    },  
-    bio:{
+    },
+    bio: {
         type: String,
         default: "Hello, I am using HelloLang!",
     },
@@ -23,8 +23,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "",
     },
-    languagesSpoken:[String],
-    languagesToLearn:[String],
+    languagesSpoken: {
+        type: [String],
+        default: ['English'],
+        required: true
+    }
+    ,
+    languagesToLearn: {
+        type: [String],       
+        default: [],                  
+    }, 
     Friends: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
@@ -33,7 +41,7 @@ const userSchema = new mongoose.Schema({
         type: String,
     }
 
-},{timestamps: true});
+}, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
