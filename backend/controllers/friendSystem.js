@@ -16,13 +16,37 @@ exports.sendFriendRequest = async (req, res) => {
             receiver,
         })
 
-        return res.status(201).json({ message: "Request Send", newRequest })
-
+        await newRequest.save();
+         res.status(201).json({ message: "Request Send", newRequest })
 
     } catch (error) {
         console.error("Error sending friend request:", error);
         res.status(500).json({ message: "Internal server error", error: error.message });
 
     }
+
+}
+
+
+exports.acceptFriendRequest = async (req, res) => {
+    console.log("Inside add friend request controller");
+    try {
+        const request = await FriendRequest.findById(req.params.id);
+        console.log(req.params.id);
+        
+        console.log(request);
+        
+        if (!request || request.status !== 'pending') {
+            return res.status(404).json({ msg: "Invalid or expired request" });
+        }
+
+        request.status='accepted';
+        res.status(200).json({ msg: "ok",request });
+
+    } catch (error) {
+        console.error("Error sending friend request:", error);
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+
 
 }
