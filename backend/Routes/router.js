@@ -1,17 +1,21 @@
 const express = require('express')
-const { register, login } = require('../controllers/AuthController')
+const { register, login, logoutUser } = require('../controllers/AuthController')
 const jwtMiddleware = require('../middlewares/jwtMiddleware')
 const { getUserProfile, updateUserProfile } = require('../controllers/profileManage')
 const { sendFriendRequest, acceptFriendRequest, rejectFriendRequest, getAllRequests } = require('../controllers/friendSystem')
 const { getUsersForSideBar, getUserMessageController, sendMessageToUserController } = require('../controllers/MessageController')
 const upload = require('../middlewares/multer.js')
 const router = express.Router()
-
-const cloudinary = require('../utils/cloudinary.js')
+const verifyloginController = require('../controllers/verifyController.js')
 
 // USER AUTH LOGIN AND REGISTER___________________________________________
 router.post('/api/auth/register', register)
 router.post('/api/auth/login', login)
+router.get('/api/auth/logout', jwtMiddleware, logoutUser)
+
+
+// VERIFYLOGIN FOR APP________________
+router.get('/api/verifylogin',jwtMiddleware ,verifyloginController)
 
 
 // USER PROFILE MANAGEMENT____________________________________________

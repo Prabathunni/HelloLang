@@ -74,3 +74,21 @@ exports.login = async (req, res) => {
     }
     
 }
+
+
+// Logout
+exports.logoutUser = async (req,res) => {
+    console.log("Inside logout controller");
+    try {
+        res.clearCookie('token',{
+            httpOnly:true,
+            secure:false
+        })
+
+        res.status(200).json("Logged Out")
+        
+    } catch (error) {
+        console.error("Error during login:", error);
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+}
