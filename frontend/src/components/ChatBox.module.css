@@ -1,0 +1,96 @@
+.chatBox {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f9ff;
+}
+
+.chatHeader {
+  background-color: #826e6e;
+  color: rgb(242, 240, 240);
+  padding: 1rem;
+}
+
+.chatBody {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message {
+  background-color: #e2edfa;
+  padding: 10px 14px;
+  border-radius: 10px;
+  max-width: 60%;
+  align-self: flex-start;
+}
+
+.own {
+  background-color: #d1f6d1;
+  align-self: flex-end;
+}
+
+.chatInput {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 1rem;
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+.customFileUpload {
+  position: relative;
+}
+
+.fileLabel {
+  background-color: #1e4f91;
+  color: white;
+  padding: 8px 12px;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fileLabel:hover {
+  background-color: #17437a;
+}
+
+.fileInput {
+  display: none;
+}
+
+.messageInput {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.sendButton {
+  background-color: #1e4f91;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.sendButton:hover {
+  background-color: #17437a;
+}
+
+@media (max-width: 768px) {
+
+
+}

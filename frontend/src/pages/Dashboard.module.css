@@ -1,0 +1,32 @@
+.dashboardWrapper {
+  display: flex;
+  height: 100vh;
+}
+
+.chatListSection {
+  width: 25%;
+  overflow-y: auto;
+}
+
+.chatBoxSection {
+  width: 75%;
+}
+
+@media (max-width: 768px) {
+  .dashboardWrapper{
+    min-height: 100vh;
+    min-width: 100vw;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+  .chatListSection {
+  width: 15%;
+}
+
+.chatBoxSection {
+  width: 85%;
+}
+
+
+}

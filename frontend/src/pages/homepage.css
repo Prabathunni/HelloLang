@@ -1,0 +1,80 @@
+/* Background gradient animation */
+.homepage-bg {
+  background: linear-gradient(-45deg, #3688ab, #badbf5, #619dcc, #3141c9);
+  background-size: 400% 400%;
+  animation: gradientAnimation 15s ease infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Fade-up animation */
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  opacity: 0;
+  animation: fadeUp 1s ease forwards;
+}
+
+.animate-delay-0 { animation-delay: 0s; }
+.animate-delay-1 { animation-delay: 0.8s; }
+.animate-delay-2 { animation-delay: 2s; }
+
+/* Logo size */
+.logo {
+  width: 100px;
+  height: auto;
+}
+
+/* Headings */
+.HEAD1,
+.HEAD2 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #1e4f91; /* Your logo blue */
+}
+
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .HEAD1,
+  .HEAD2 {
+    font-size: 2.2rem;
+  }
+
+  .logo {
+    width: 50px;
+  }
+
+}
+
+@media (max-width: 480px) {
+  .HEAD1,
+  .HEAD2 {
+    font-size: 1.6rem;
+  }
+
+  .logo {
+    width: 40px;
+  }
+}
+
+

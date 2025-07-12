@@ -1,0 +1,58 @@
+/* Background matches homepage vibe */
+.form-wrapper {
+  background: linear-gradient(-45deg, #3688ab, #badbf5, #619dcc, #3141c9);
+  background-size: 400% 400%;
+  animation: gradientAnimation 15s ease infinite;
+}
+
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Form container */
+.form-card {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.registerForm-fade-up {
+  opacity: 0;
+  animation: fadeUp 1s ease forwards;
+}
+
+
+
+/* Input fields */
+.input-field {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 12px;
+  transition: border-color 0.3s;
+}
+
+.input-field:focus {
+  border-color: #1e4f91;
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(30, 79, 145, 0.2);
+}
+
+/* Button */
+.btn {
+  border-radius: 10px;
+  padding: 10px;
+}
