@@ -4,8 +4,10 @@ const jwtMiddleware = require('../middlewares/jwtMiddleware')
 const { getUserProfile, updateUserProfile } = require('../controllers/profileManage')
 const { sendFriendRequest, acceptFriendRequest, rejectFriendRequest, getAllRequests } = require('../controllers/friendSystem')
 const { getUsersForSideBar, getUserMessageController, sendMessageToUserController } = require('../controllers/MessageController')
-const upload = require('../middlewares/multer')
+const upload = require('../middlewares/multer.js')
 const router = express.Router()
+
+const cloudinary = require('../utils/cloudinary.js')
 
 // USER AUTH LOGIN AND REGISTER___________________________________________
 router.post('/api/auth/register', register)
@@ -38,6 +40,18 @@ router.get('/api/messages/:id',jwtMiddleware, getUserMessageController)
 router.post('/api/messages/:id/send',jwtMiddleware, upload.single('image'), sendMessageToUserController)
 
 
+// test it postvia postman!!
+router.post('/test-upload', upload.single('image'), (req,res)=>{
+    console.log("Inside cloudinary upload");
+    
+    cloudinary.uploader.upload(req.file.path, (err,result)=>{
+        if(err){
+            console.log(err);
+            res.status(500).json(err.message) 
+        }
+        res.status(200).json({info:"uploaded",result})
+    })
+} )
 
 
 

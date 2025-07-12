@@ -12,6 +12,14 @@ app.use(cors())
 app.use(cookieParser())
 app.use(router)
 
+// Global error handler — must come AFTER all routes
+app.use((err, req, res, next) => {
+    console.error("🔥 GLOBAL ERROR:", err.stack || err.message);
+    res.status(500).json({
+        success: false,
+        error: err.message || 'Something went wrong!',
+    });
+});
 
 
 PORT = process.env.PORT || 3000
