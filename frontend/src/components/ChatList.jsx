@@ -11,7 +11,7 @@ function ChatList() {
     <h4 className="text-primary text-center mb-3">My Chats</h4>
     <hr />
 
-    <div className={`${styles.userItem} d-flex align-items-center`}>
+    <Link to={'/chat/1234'} className={`${styles.userItem} d-flex align-items-center text-decoration-none text-dark`}>
       <img
         src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
         alt=""
@@ -22,7 +22,7 @@ function ChatList() {
         <h4 className="mb-1" style={{ fontSize: '1rem' }}>user name 1</h4>
         <p className="mb-0 text-muted small">offline</p>
       </div>
-    </div>
+    </Link>
 
     <div className={`${styles.userItem} d-flex align-items-center`}>
       <img

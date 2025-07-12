@@ -1,0 +1,9 @@
+.friend-requests-wrapper {
+  background: #f4f7fb;
+  min-height: 100vh;
+}
+
+.request-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}

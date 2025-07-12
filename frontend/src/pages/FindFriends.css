@@ -1,0 +1,80 @@
+.find-friends-wrapper {
+    min-height: 100vh;
+    padding: 60px 20px 40px;
+    overflow-y: auto;
+    background: linear-gradient(-45deg, #3688ab, #badbf5, #619dcc, #3141c9);
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.friends-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0d47a1;
+    margin-bottom: 1rem;
+}
+
+.search-bar input {
+    border-radius: 30px;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    max-width: 400px;
+    width: 100%;
+    transition: box-shadow 0.3s ease;
+}
+
+.search-bar input:focus {
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.3);
+    outline: none;
+    border-color: #2196f3;
+}
+
+.friends-card {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid #e0e0e0;
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.friends-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.friends-card img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #2196f3;
+}
+
+.friends-card h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.friends-card button {
+    margin-top: 10px;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}

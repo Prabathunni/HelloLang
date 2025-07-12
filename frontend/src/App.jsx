@@ -6,6 +6,10 @@ import Dashboard from './pages/Dashboard'
 import MyProfile from './pages/MyProfile'
 import YourProfile from './pages/YourProfile'
 import LayoutWithHeader from './components/LayoutWithHeader'
+import FindFriends from './pages/FindFriends'
+import FriendRequests from './pages/FriendRequests'
+import ChatWithUser from './pages/ChatWithUser'
+import Footer from './components/Footer'
 
 function App() {
 
@@ -20,11 +24,15 @@ function App() {
 
       <Route element={<LayoutWithHeader/>}>
       <Route path='/dashboard' element={<Dashboard/>}/>
-      <Route path='/myprofile' element={<MyProfile/>}/>
-      <Route path='/viewuserprofile' element={<YourProfile/>}/>
-
+      <Route path='/chat/:id' element={<ChatWithUser/>}/>
+      <Route path='/myprofile/:id' element={<MyProfile/>}/>
+      <Route path='/viewuserprofile/:id' element={<YourProfile/>}/>
+      <Route path='/findFriends' element={<FindFriends/>}/>
+      <Route path='/friendrequests' element={<FriendRequests/>}/>
       </Route>
     </Routes>
+
+    <Footer/>
 
 
 

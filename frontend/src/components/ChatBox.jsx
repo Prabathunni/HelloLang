@@ -10,7 +10,7 @@ function ChatBox() {
 
         <div className='d-flex align-items-center justify-content-between'>
           <div className='d-flex align-items-center'>
-            <Link to={'/viewuserprofile'}>
+            <Link to={'/viewuserprofile/1234'}>
               <img
                 src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                 alt=""
