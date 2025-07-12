@@ -1,24 +1,65 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import './Register.css'
-
+import { loginUserAPI } from '../services/appServices';
+import { useAuth } from '../contexts/AuthContext';
 
 function Login() {
+    const navigate = useNavigate()
+    const { setIsUserLoggedIn } = useAuth()
+    const [username,setUsername] = useState('');
+    const [password,setPassword] = useState('');
+
+    const loginUser = async (e) => {
+      e.preventDefault();
+
+      try {
+        if(!username || !password){
+          alert('Provide All Inputs')
+        }
+
+        const loginData = {
+          username,
+          password
+        }
+
+        const result = await loginUserAPI(loginData);
+        
+        const userID = result?.data.user._id
+        if(userID){
+          sessionStorage.setItem('userid',userID)
+          alert(result?.data.message)
+          setIsUserLoggedIn(true)
+          navigate('/findFriends')
+        }else{
+          console.log("No userId provided");
+          
+        }
+
+        
+        
+      } catch (error) {
+        console.log(error);
+      alert(error.response.data.message)
+      }
+    }
+  
+
   return (
       <div className="form-wrapper d-flex align-items-center vh-100 justify-content-center px-3">
     
         <div className="form-card p-4 shadow registerForm-fade-up">
           <h2 className="text-center mb-4 text-primary fw-bold">Login To Account</h2>
 
-          <form>
+          <form onSubmit={loginUser}>
             <div className="mb-3">
               <label className="form-label fw-semibold">Username</label>
-              <input type="text" className="form-control input-field" placeholder="Enter username" />
+              <input type="text" onChange={e=>setUsername(e.target.value)} className="form-control input-field" placeholder="Enter username" />
             </div>
 
             <div className="mb-3">
               <label className="form-label fw-semibold">Password</label>
-              <input type="password" className="form-control input-field" placeholder="Enter password" />
+              <input type="password" onChange={e=>setPassword(e.target.value)} className="form-control input-field" placeholder="Enter password" />
             </div>
 
             <button type="submit" className="btn btn-primary w-100 fw-semibold shadow-sm mb-4">

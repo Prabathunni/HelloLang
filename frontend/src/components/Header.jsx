@@ -1,8 +1,12 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Navbar, Container, Button } from 'react-bootstrap';
+import { LogoutUserAPI } from '../services/appServices';
+import { useAuth } from '../contexts/AuthContext';
 
 function Header() {
+  const {setIsUserLoggedIn} = useAuth()
+  const navigate = useNavigate()
   const location = useLocation();
 
   // Customize title based on current route
@@ -15,6 +19,21 @@ function Header() {
     return '';
   };
 
+
+  const logoutUser = async () => {
+    try {
+      const result = await LogoutUserAPI()
+      alert(result?.data);
+      sessionStorage.clear()
+      setIsUserLoggedIn(false)
+      navigate('/')
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
   return (
     <Navbar bg="primary" variant="dark">
       <Container className="d-flex justify-content-between align-items-center">
@@ -24,7 +43,7 @@ function Header() {
           <Link to="/myprofile/myidhere" className="btn btn-outline-light btn-sm me-2">My Profile</Link>
           <Link to="/findfriends" className="btn btn-outline-light btn-sm me-2">Explore</Link>
           <Link to="/friendrequests" className="btn btn-outline-light btn-sm me-2">Requests</Link>
-          <Button variant="light" size="sm" onClick={() => alert("Logging out...")}>Logout</Button>
+          <Button variant="light" size="sm" onClick={logoutUser}>Logout</Button>
         </div>
       </Container>
     </Navbar>

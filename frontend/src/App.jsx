@@ -10,29 +10,42 @@ import FindFriends from './pages/FindFriends'
 import FriendRequests from './pages/FriendRequests'
 import ChatWithUser from './pages/ChatWithUser'
 import Footer from './components/Footer'
+import { useAuth } from './contexts/AuthContext'
 
 function App() {
+
+  const { isUserLoggedIn} = useAuth()
 
   return (
     <>
 
-    <Routes>
-      <Route path='/' element={<Home/>}/>
-      <Route path='/register' element={<Register/>}/>
-      <Route path='/login' element={<Login/>}/>
+      {isUserLoggedIn ?
+        <Routes>
+          <Route path='*' element={<Home />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/login' element={<Login />} />
 
 
-      <Route element={<LayoutWithHeader/>}>
-      <Route path='/dashboard' element={<Dashboard/>}/>
-      <Route path='/chat/:id' element={<ChatWithUser/>}/>
-      <Route path='/myprofile/:id' element={<MyProfile/>}/>
-      <Route path='/viewuserprofile/:id' element={<YourProfile/>}/>
-      <Route path='/findFriends' element={<FindFriends/>}/>
-      <Route path='/friendrequests' element={<FriendRequests/>}/>
-      </Route>
-    </Routes>
+          <Route element={<LayoutWithHeader />}>
+            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/chat/:id' element={<ChatWithUser />} />
+            <Route path='/myprofile/:id' element={<MyProfile />} />
+            <Route path='/viewuserprofile/:id' element={<YourProfile />} />
+            <Route path='/findFriends' element={<FindFriends />} />
+            <Route path='/friendrequests' element={<FriendRequests />} />
+          </Route>
+        </Routes>
+        :
+        <div>
+          <Routes>
+            <Route path='*' element={<Home />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/login' element={<Login />} />
+          </Routes>
 
-    <Footer/>
+        </div>
+      }
+      <Footer />
 
 
 
