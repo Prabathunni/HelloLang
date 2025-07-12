@@ -47,9 +47,8 @@ exports.sendMessageToUserController = async (req, res) => {
         const receiver = req.params.id;
         const sender = req.userId;
 
-
         let imageUrl;
-
+        
         if (req.file) {
             const result = cloudinary.uploader.upload(req.file.path, { folder: 'HelloLang_Chat_Images' });
             imageUrl = (await result).secure_url;

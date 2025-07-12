@@ -40,19 +40,6 @@ router.get('/api/messages/:id',jwtMiddleware, getUserMessageController)
 router.post('/api/messages/:id/send',jwtMiddleware, upload.single('image'), sendMessageToUserController)
 
 
-// test it postvia postman!!
-router.post('/test-upload', upload.single('image'), (req,res)=>{
-    console.log("Inside cloudinary upload");
-    
-    cloudinary.uploader.upload(req.file.path, (err,result)=>{
-        if(err){
-            console.log(err);
-            res.status(500).json(err.message) 
-        }
-        res.status(200).json({info:"uploaded",result})
-    })
-} )
-
 
 
 
