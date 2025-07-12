@@ -26,8 +26,10 @@ function Login() {
         const result = await loginUserAPI(loginData);
         
         const userID = result?.data.user._id
+        const userData = result?.data.user
         if(userID){
           sessionStorage.setItem('userid',userID)
+          sessionStorage.setItem('user',JSON.stringify(userData))
           alert(result?.data.message)
           setIsUserLoggedIn(true)
           navigate('/findFriends')

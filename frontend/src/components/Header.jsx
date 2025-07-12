@@ -39,7 +39,7 @@ function Header() {
       <Container className="d-flex justify-content-between align-items-center">
         <Navbar.Brand className="fw-bold">{getTitle()}</Navbar.Brand>
         <div>
-          <Link to="/dashboard" className="btn btn-outline-light btn-sm me-2">Chats</Link>
+          <Link to="/dashboard" className="btn btn-outline-light btn-sm me-2">My Friends</Link>
           <Link to="/myprofile/myidhere" className="btn btn-outline-light btn-sm me-2">My Profile</Link>
           <Link to="/findfriends" className="btn btn-outline-light btn-sm me-2">Explore</Link>
           <Link to="/friendrequests" className="btn btn-outline-light btn-sm me-2">Requests</Link>

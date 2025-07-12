@@ -32,7 +32,7 @@ function FriendRequests() {
   ];
 
   return (
-    <div className="friend-requests-wrapper py-5">
+    <div className="friend-requests-wrapper py-5" style={{minHeight:'100vh'}}>
       <div className="container">
         <h3 className="text-primary fw-bold text-center mb-4">Friend Requests</h3>
 

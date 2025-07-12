@@ -11,10 +11,34 @@ import FriendRequests from './pages/FriendRequests'
 import ChatWithUser from './pages/ChatWithUser'
 import Footer from './components/Footer'
 import { useAuth } from './contexts/AuthContext'
+import { verifyloginAPI } from './services/appServices'
+import { useEffect } from 'react'
 
 function App() {
+  const { isUserLoggedIn, setIsUserLoggedIn } = useAuth()
 
-  const { isUserLoggedIn} = useAuth()
+  const verfiyLogin = async () => {
+    try {
+      const result = await verifyloginAPI();
+      // console.log(result);
+      const valid = result.data.valid
+
+      if (valid) {
+        setIsUserLoggedIn(true)
+      } else {
+        setIsUserLoggedIn(false)
+      }
+
+
+    } catch (error) {
+      console.log(error);
+      setIsUserLoggedIn(false)
+    }
+  }
+
+  useEffect(() => {
+    verfiyLogin()
+  }, [])
 
   return (
     <>

@@ -51,3 +51,29 @@ export const LogoutUserAPI = async () => {
         throw error
     }
 }
+
+// get all friends API 
+export const getAllFriendsAPI = async () => {
+    try {
+        const result = await axios.get(`${server_url}/api/friends`, {withCredentials: true})
+        return result
+        
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}
+
+
+
+// get all user API  
+export const getAllUsersAPI = async () => {
+    try {
+        const result = await axios.get(`${server_url}/api/users`, {withCredentials: true})
+        return result
+        
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}
