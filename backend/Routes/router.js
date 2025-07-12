@@ -2,7 +2,7 @@ const express = require('express')
 const { register, login, logoutUser } = require('../controllers/AuthController')
 const jwtMiddleware = require('../middlewares/jwtMiddleware')
 const { getUserProfile, updateUserProfile } = require('../controllers/profileManage')
-const { sendFriendRequest, acceptFriendRequest, rejectFriendRequest, getAllRequests } = require('../controllers/friendSystem')
+const { sendFriendRequest, acceptFriendRequest, rejectFriendRequest, getAllFriends, getAllUsers } = require('../controllers/friendSystem')
 const { getUsersForSideBar, getUserMessageController, sendMessageToUserController } = require('../controllers/MessageController')
 const upload = require('../middlewares/multer.js')
 const router = express.Router()
@@ -31,7 +31,15 @@ router.put('/api/friends/:id/accept', jwtMiddleware, acceptFriendRequest)
 // reject req
 router.delete('/api/friends/:id/reject', jwtMiddleware, rejectFriendRequest)
 // get all req
-router.get('/api/friends',jwtMiddleware, getAllRequests)
+router.get('/api/friends',jwtMiddleware, getAllFriends)
+
+
+
+// BUG => SHOULD ONLY PROVIDE NEW USERS (NO NEED FRIEND USERS)
+// get all users
+router.get('/api/users', jwtMiddleware, getAllUsers )
+
+
 
 
 

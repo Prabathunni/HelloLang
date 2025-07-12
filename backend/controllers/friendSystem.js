@@ -72,12 +72,24 @@ exports.acceptFriendRequest = async (req, res) => {
 
 }
 
-exports.getAllRequests = async (req,res) => {
+exports.getAllFriends = async (req,res) => {
     console.log("Inside get all req controller");
     try {
-        const user = await userModel.findById(req.userId).populate('friends', 'username profilePicture');
+        const user = await userModel.findById(req.userId).populate('friends', 'username profilePicture _id');
         if(!user) return res.status(404).json("user not found")
         res.status(200).json(user.friends);
+    } catch (error) {
+        console.error("Error sending friend request:", error);
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+}
+
+// FRIEND ID != USERS ID **************
+exports.getAllUsers = async (req,res) => {
+    try {
+        const users = await userModel.find()
+        res.status(200).json(users)
+        
     } catch (error) {
         console.error("Error sending friend request:", error);
         res.status(500).json({ message: "Internal server error", error: error.message });
