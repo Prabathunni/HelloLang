@@ -4,6 +4,9 @@ import ChatList from '../components/ChatList';
 import ChatBox from '../components/ChatBox';
 
 function ChatWithUser() {
+
+
+
   return (
     <div className={`${styles.dashboardWrapper}`}>
 
@@ -12,7 +15,7 @@ function ChatWithUser() {
       </div>
 
       <div className={`${styles.chatBoxSection} shadow-sm`}>
-        <ChatBox/>
+        <ChatBox />
       </div>
 
     </div>

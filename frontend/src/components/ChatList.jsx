@@ -18,7 +18,7 @@ function ChatList() {
     }
   }
 
-  console.log(friendsData);
+  // console.log(friendsData);
   
 
   useEffect(()=>{

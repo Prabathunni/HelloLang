@@ -1,6 +1,6 @@
 import React from 'react'
 import './Register.css'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import ChatList from '../components/ChatList'
 import { updateProfileAPI, viewaUserProfileAPI } from '../services/appServices';
 import { useEffect } from 'react';
@@ -85,14 +85,13 @@ function MyProfile() {
   return (
 
     <div className="d-flex " style={{ height: '100vh' }}>
-      {/* Left Sidebar - ChatList */}
+
       <div style={{ width: '25%', backgroundColor: '#f8f9fa' }}>
         <div className="h-100 overflow-auto">
           <ChatList />
         </div>
       </div>
 
-      {/* Right Content - MyProfile */}
       <div style={{ width: '75%', backgroundColor: '#fff', overflowY: 'auto' }} className='shadow-sm'>
 
         <div className="container py-4">

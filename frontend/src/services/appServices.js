@@ -116,6 +116,18 @@ export const updateProfileAPI = async (userID,formData) => {
     }
 }
 
+// send message api
+export const sendMessageAPI = async (userID,formData) => {
+    try {
+        const result = await axios.post(`${server_url}/api/messages/${userID}/send`, formData, {withCredentials: true})
+        return result
+        
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}
+
 
 
 
