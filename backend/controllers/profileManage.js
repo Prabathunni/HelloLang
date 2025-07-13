@@ -1,4 +1,7 @@
 const userModel = require('../model/userSchema.js');
+const cloudinary = require('../utils/cloudinary.js')
+const fs = require('fs')
+
 
 exports.getUserProfile = async (req, res) => {
     console.log("inside getUserProfile controller");
@@ -24,23 +27,47 @@ exports.updateUserProfile = async (req, res) => {
     try {
 
         const userId = req.params.id;
-        const { bio, profilePicture, languagesSpoken , languagesToLearn} = req.body;
+        let { bio, languagesSpoken, languagesToLearn } = req.body;
 
-        if(!bio || !profilePicture || !languagesSpoken || !languagesToLearn) {
-            return res.status(400).json({ message: "No fields to update" });
+        // console.log("Raw data:", languagesSpoken, bio, languagesToLearn);
+
+        if (!bio) {
+            return res.status(400).json({ message: "No bio to update" });
         }
+
+        let parsedSpoken = [];
+        let parsedLearn = [];
+
+        try {
+            parsedSpoken = JSON.parse(languagesSpoken || '[]');
+            parsedLearn = JSON.parse(languagesToLearn || '[]');
+        } catch (err) {
+            return res.status(400).json({ message: 'Invalid JSON format for languages', error: err.message });
+        }
+        // console.log("After parse:",parsedSpoken,parsedLearn);
+
 
         const user = await userModel.findById(userId);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
-        }else {
-            // Update user profile
+        } else {
+
+            let imageUrl = null;
+
+            if (req.file) {
+                const result = await cloudinary.uploader.upload(req.file.path, {
+                    folder: 'HelloLang_profiles'
+                });
+                imageUrl = result.secure_url;
+                fs.unlinkSync(req.file.path);
+            }
+
             user.bio = bio || user.bio;
-            user.profilePicture = profilePicture || user.profilePicture;
-            user.languagesSpoken.push(...languagesSpoken.filter(lang => !user.languagesSpoken.includes(lang)));
-            
-            if(languagesToLearn){
-               user.languagesToLearn.push(...languagesToLearn.filter(lang => !user.languagesToLearn.includes(lang)));
+            user.profilePicture = imageUrl || user.profilePicture;
+            user.languagesSpoken.push(...parsedSpoken.filter(lang => !user.languagesSpoken.includes(lang)));
+
+            if (languagesToLearn) {
+                user.languagesToLearn.push(...parsedLearn.filter(lang => !user.languagesToLearn.includes(lang)));
             }
 
             await user.save();

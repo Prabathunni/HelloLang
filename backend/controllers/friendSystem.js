@@ -84,11 +84,44 @@ exports.getAllFriends = async (req,res) => {
     }
 }
 
-// FRIEND ID != USERS ID **************
+exports.getMyRequests = async (req,res) => {
+    console.log("Inside my request controller");
+   try {
+        const userID = req.userId;
+        const newRequests = await FriendRequest.find({
+            receiver:userID,
+            status:'pending'
+        }).select('sender')
+
+        const newReqestSenders = newRequests.map((item)=>(
+            item.sender
+        ))
+
+        const requestedUsers = await userModel.find({
+            _id: [...newReqestSenders]
+        }).select('username profilePicture _id languagesSpoken')
+
+        res.status(200).json(requestedUsers)
+    
+   } catch (error) {
+        console.error("Error sending friend request:", error);
+        res.status(500).json({ message: "Internal server error", error: error.message });
+   } 
+}
+
+
+
 exports.getAllUsers = async (req,res) => {
     try {
-        const users = await userModel.find()
-        res.status(200).json(users)
+        const userID = req.userId
+        const users = await userModel.findById(userID).select('friends')
+        const friendUsers = users.friends.map((friends)=>(friends.toString()))
+
+        const otherUser = await userModel.find({
+            _id: { $nin: [...friendUsers, userID] }
+        }).select('username languagesSpoken profilePicture _id')
+        
+        res.status(200).json(otherUser)
         
     } catch (error) {
         console.error("Error sending friend request:", error);
