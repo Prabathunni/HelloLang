@@ -30,8 +30,6 @@ exports.getUserMessageController = async (req, res) => {
             ]
         })
 
-        if (messages.length == 0) return res.status(200).json("No messages yet")
-
         res.status(200).json(messages)
 
     } catch (error) {
