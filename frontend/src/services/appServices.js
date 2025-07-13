@@ -129,5 +129,18 @@ export const sendMessageAPI = async (userID,formData) => {
 }
 
 
+// load messages api
+export const loadMessageAPI = async (userID) => {
+    try {
+        const result = await axios.get(`${server_url}/api/messages/${userID}`, {withCredentials: true})
+        return result
+        
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}
+
+
 
 

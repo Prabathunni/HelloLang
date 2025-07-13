@@ -1,32 +1,49 @@
 import React, { useEffect, useState } from 'react';
 import styles from './ChatBox.module.css';
 import { Link, useParams } from 'react-router-dom';
-import { sendMessageAPI, viewaUserProfileAPI } from '../services/appServices';
+import { loadMessageAPI, sendMessageAPI, viewaUserProfileAPI } from '../services/appServices';
 
 function ChatBox() {
   const { id } = useParams()
 
   const [message, setMessage] = useState("")
   const [userData, setUserData] = useState()
+  const [loadedMsgData, setLoadedMsgData] = useState([])
+  const myId = sessionStorage.getItem('userid')
 
 
   const messageData = new FormData();
-  messageData.append('text',message)
-  
+  messageData.append('text', message)
 
-  const sendmessage =async (e) => {
+
+  const sendmessage = async (e) => {
     e.preventDefault()
     try {
-      const result = await sendMessageAPI(id,messageData);
-      alert(result?.data.info)
+      await sendMessageAPI(id, messageData);
+      loadMessages()
       setMessage("")
-      
+
     } catch (error) {
       console.log(error);
       alert("Server Error! Unable to send message")
-      
+
     }
   }
+
+
+  // {_id: '6872023d0f218dfcb0484278', sender: '6870c2cfe4611f3e5037b69b', receiver: '6870cfecebc2ad59a61243aa', text: 'Hii sethu... its arun here.', seen: false, …}
+
+
+  const loadMessages = async () => {
+    try {
+      const result = await loadMessageAPI(id)      
+      setLoadedMsgData(result?.data)
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
 
   const getUserProfile = async () => {
@@ -44,6 +61,7 @@ function ChatBox() {
 
   useEffect(() => {
     getUserProfile()
+    loadMessages()
   }, [id])
 
 
@@ -74,13 +92,28 @@ function ChatBox() {
 
       </div>
 
+
+      {/* MESSAGE BOX--------------------------------------------------- */}
       <div className={styles.chatBody}>
-        {/* reciever message */}
-        <div className={styles.message}>Hey, how are you?</div>
+        {loadedMsgData?.map((msg, index) => {
+          if (msg?.sender === myId) {
+            // My message (sent)
+            return (
+              <div className={`${styles.message} ${styles.own}`} key={index}>
+                {msg?.text}
+              </div>
+            );
+          } else if (msg?.receiver === myId) {
+            //  message (received)
+            return (
+              <div className={styles.message} key={index}>
+                {msg?.text}
+              </div>
+            );
+          }
 
-        {/* sender message */}
-        <div className={`${styles.message} ${styles.own}`}>I'm good, you?</div>
-
+          return null; // If neither, don't render
+        })}
       </div>
 
 
@@ -96,7 +129,7 @@ function ChatBox() {
             <input id="fileInput" type="file" accept="image/*" className={styles.fileInput} onChange={(e) => console.log(e.target.files[0])} />
           </div>
 
-          <input type="text" value={message} onChange={(e)=>setMessage(e.target.value)} placeholder="Type a message..." className={styles.messageInput} />
+          <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Type a message..." className={styles.messageInput} />
 
           <button type="submit" disabled={!message} className='btn btn-primary px-4'>Send</button>
         </form>
