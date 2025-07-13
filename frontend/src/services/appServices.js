@@ -55,7 +55,7 @@ export const LogoutUserAPI = async () => {
 // get all friends API 
 export const getAllFriendsAPI = async () => {
     try {
-        const result = await axios.get(`${server_url}/api/friends`, {withCredentials: true})
+        const result = await axios.get(`${server_url}/api/friends/all`, {withCredentials: true})
         return result
         
     } catch (error) {
@@ -77,3 +77,45 @@ export const getAllUsersAPI = async () => {
         throw error
     }
 }
+
+
+// get all friends API 
+export const getMyFriendReqAPI = async () => {
+    try {
+        const result = await axios.get(`${server_url}/api/friends`, {withCredentials: true})
+        return result
+        
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}
+
+// get a user profile API
+export const viewaUserProfileAPI = async (userID) => {
+    try {
+        const result = await axios.get(`${server_url}/api/user/${userID}`, {withCredentials: true})
+        return result
+        
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}
+
+
+// update my profile API
+export const updateProfileAPI = async (userID,formData) => {
+    try {
+        const result = await axios.put(`${server_url}/api/user/${userID}`, formData, {withCredentials: true})
+        return result
+        
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}
+
+
+
+

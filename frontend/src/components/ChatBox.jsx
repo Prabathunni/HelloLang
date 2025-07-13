@@ -36,51 +36,7 @@ function ChatBox() {
 
         {/* sender message */}
         <div className={`${styles.message} ${styles.own}`}>I’m good, you?</div>
-        {/* reciever message */}
-        <div className={styles.message}>Hey, how are you?</div>
 
-        {/* sender message */}
-        <div className={`${styles.message} ${styles.own}`}>I’m good, you?</div>
-        {/* reciever message */}
-        <div className={styles.message}>Hey, how are you?</div>
-
-        {/* sender message */}
-        <div className={`${styles.message} ${styles.own}`}>I’m good, you?</div>
-        {/* reciever message */}
-        <div className={styles.message}>Hey, how are you?</div>
-
-        {/* sender message */}
-        <div className={`${styles.message} ${styles.own}`}>I’m good, you?</div>
-        {/* reciever message */}
-        <div className={styles.message}>Hey, how are you?</div>
-
-        {/* sender message */}
-        <div className={`${styles.message} ${styles.own}`}>I’m good, you?</div>
-        {/* reciever message */}
-        <div className={styles.message}>Hey, how are you?</div>
-
-        {/* sender message */}
-        <div className={`${styles.message} ${styles.own}`}>I’m good, you?</div>
-        {/* reciever message */}
-        <div className={styles.message}>Hey, how are you?</div>
-
-        {/* sender message */}
-        <div className={`${styles.message} ${styles.own}`}>I’m good, you?</div>
-        {/* reciever message */}
-        <div className={styles.message}>Hey, how are you?</div>
-
-        {/* sender message */}
-        <div className={`${styles.message} ${styles.own}`}>I’m good, you?</div>
-        {/* reciever message */}
-        <div className={styles.message}>Hey, how are you?</div>
-
-        {/* sender message */}
-        <div className={`${styles.message} ${styles.own}`}>I’m good, you?</div>
-        {/* reciever message */}
-        <div className={styles.message}>Hey, how are you?</div>
-
-        {/* sender message */}
-        <div className={`${styles.message} ${styles.own}`}>I’m good, you?</div>
       </div>
 
 

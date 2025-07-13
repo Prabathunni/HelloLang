@@ -1,20 +1,36 @@
 import React, { useState } from 'react';
 import './FindFriends.css';
 import { Link } from 'react-router-dom';
+import { getAllUsersAPI } from '../services/appServices';
+import { useEffect } from 'react';
 
 function FindFriends() {
   const [search, setSearch] = useState("");
 
-  const friends = [
-    { id: 1, name: 'Rishna', image: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' },
-    { id: 2, name: 'John Doe', image: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' },
-    { id: 3, name: 'Lena Max', image: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' },
-    { id: 4, name: 'Rahul', image: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' },
-  ];
+  const [usersData, setUsersData] = useState([])
 
-  const filtered = friends.filter(friend =>
-    friend.name.toLowerCase().includes(search.toLowerCase())
+
+  const getAllUsers = async () => {
+    try {
+      const result = await getAllUsersAPI()
+      setUsersData(result?.data)
+
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
+
+
+  const filtered = usersData.filter(friend =>
+    friend.username.toLowerCase().includes(search.toLowerCase())
   );
+
+
+
+  useEffect(() => {
+    getAllUsers()
+  }, [])
 
   return (
     <div className="find-friends-wrapper">
@@ -31,16 +47,43 @@ function FindFriends() {
         </div>
 
         <div className="row g-4 justify-content-center">
-          {filtered.map(friend => (
-            <div  className="col-md-3 col-sm-6" key={friend.id}>
-              <div className="friends-card">
-                <Link to={'/viewuserprofile/users._id'} className='text-decoration-none text-dark'>
-                  <img src={friend.image} alt={friend.name} />
-                  <h5>{friend.name}</h5>
+          {filtered?.map(friend => (
+            <div className="col-md-3 col-sm-6 mb-4" key={friend?._id}>
+
+              <div className="friend-card-colored">
+                <Link
+                  to={`/viewuserprofile/${friend?._id}`}
+                  className="text-decoration-none text-dark"
+                >
+                  <img
+                    src={
+                      friend?.profilePicture ||
+                      'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+                    }
+                    alt={friend?.username}
+                    className="profile-img"
+                  />
+                  <div className="card-details">
+                    <h5 className="username">{friend?.username}</h5>
+
+                    <div className="language-section">
+                      {/* <p className="mb-2 text-muted">Languages :</p> */}
+                      <div className="languages">
+                        {friend?.languagesSpoken?.map((language, index) => (
+                          <span key={index} className="language-pill">
+                            {language}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </Link>
-                <p>Language : <span className='fw-bolder text-danger'>English</span></p>
-                <button className="btn btn-outline-primary btn-sm">Send Request</button>
+                <div className="text-center mt-3 mb-3">
+                  <button className="btn btn-request">Send Request</button>
+                </div>
+
               </div>
+
             </div>
           ))}
 

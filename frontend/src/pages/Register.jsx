@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import './Register.css'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { RegisterUserApi } from '../services/appServices';
 
 
 function Register() {
 
-
+  const navigate = useNavigate();
   const [username,setUsername] = useState('');
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
@@ -27,6 +27,7 @@ function Register() {
 
       const result = await RegisterUserApi(registerData);
       alert(result?.data.message);
+      navigate('/login')
       
       
     } catch (error) {
