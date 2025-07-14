@@ -8,15 +8,14 @@ import { SocketProvider } from './contexts/SocketContext.jsx'
 
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
 
+  <StrictMode>
     <AuthProvider>
       <SocketProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+
+        <BrowserRouter><App /></BrowserRouter>
       </SocketProvider>
+
     </AuthProvider>
-    
   </StrictMode>,
 )

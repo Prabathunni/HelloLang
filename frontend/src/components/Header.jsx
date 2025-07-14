@@ -3,9 +3,11 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Navbar, Container, Button } from 'react-bootstrap';
 import { LogoutUserAPI } from '../services/appServices';
 import { useAuth } from '../contexts/AuthContext';
+import { useSocket } from '../contexts/SocketContext';
 
 function Header() {
-  const {setIsUserLoggedIn} = useAuth()
+  const { disconnectSocket } = useSocket()
+  const {setIsUserLoggedIn,setUser} = useAuth()
   const navigate = useNavigate()
   const location = useLocation();
 
@@ -27,6 +29,8 @@ function Header() {
       sessionStorage.clear()
       setIsUserLoggedIn(false)
       navigate('/')
+      setUser([])
+      disconnectSocket()
       
     } catch (error) {
       console.log(error);

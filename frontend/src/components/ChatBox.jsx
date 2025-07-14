@@ -2,67 +2,141 @@ import React, { useEffect, useState } from 'react';
 import styles from './ChatBox.module.css';
 import { Link, useParams } from 'react-router-dom';
 import { loadMessageAPI, sendMessageAPI, viewaUserProfileAPI } from '../services/appServices';
+import { useSocket } from '../contexts/SocketContext';
+import { useAuth } from '../contexts/AuthContext';
 
 function ChatBox() {
-  const { id } = useParams()
 
-  const [message, setMessage] = useState("")
-  const [userData, setUserData] = useState()
-  const [loadedMsgData, setLoadedMsgData] = useState([])
-  const myId = sessionStorage.getItem('userid')
+  const { id:peerId } = useParams()
+  const { user } = useAuth();
+  const { socket } = useSocket();
+
+  console.log(user);
+  
+
+  const [text, setText] = useState('');
+  const [userData, setUserData] = useState(null);
+  const [messages, setMessages] = useState([]);
 
 
-  const messageData = new FormData();
-  messageData.append('text', message)
+  useEffect(()=>{
+    
+    const loadChat = async () => {
+      try {
+        const [msgRes, userRes] = await Promise.all([
+          loadMessageAPI(peerId),
+          viewaUserProfileAPI(peerId)
+        ]);
+        setMessages(msgRes.data);
+        setUserData(userRes.data)
+      } catch (error) {
+         console.error('Load chat error:', error);
+      }
+    }
+
+    loadChat()
+
+  },[peerId])
 
 
-  const sendmessage = async (e) => {
-    e.preventDefault()
+  // REAT-TIME INCOMING MESSAGES
+  useEffect(()=>{
+    if(!socket)return;
+    const handleIncoming = msg => {
+      // only add if this convo
+      if( (msg.sender === peerId && msg.receiver === user._id) || (msg.sender === user._id && msg.receiver === peerId) ) {
+        setMessages(prev => [...prev, msg])
+      }
+    };
+
+    socket.on('receiveMessage', handleIncoming);
+    return () => socket.off('receiveMessage', handleIncoming);
+
+  },[socket,peerId,user._id]);
+
+
+  // send a new message (REST + Socket emit)
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    if(!text.trim() || !socket) return;
+
     try {
-      await sendMessageAPI(id, messageData);
-      loadMessages()
-      setMessage("")
+      // save to db
+      const result = await sendMessageAPI(peerId, { text });
+      const saved = result?.data;
 
+      // emit over socket
+      socket.emit('sendMessage',{
+        toId: peerId,
+        text,
+        _id: saved._id
+      })
+
+      setMessages(prev => [...prev, saved]);
+      setText('')
+      
     } catch (error) {
-      console.log(error);
-      alert("Server Error! Unable to send message")
-
+      console.error('Send message error:', error);
+      alert('Unable to send message');
     }
   }
 
 
-  // {_id: '6872023d0f218dfcb0484278', sender: '6870c2cfe4611f3e5037b69b', receiver: '6870cfecebc2ad59a61243aa', text: 'Hii sethu... its arun here.', seen: false, …}
-
-
-  const loadMessages = async () => {
-    try {
-      const result = await loadMessageAPI(id)      
-      setLoadedMsgData(result?.data)
-
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
 
 
-  const getUserProfile = async () => {
-
-    try {
-      const result = await viewaUserProfileAPI(id);
-      setUserData(result?.data)
-
-    } catch (error) {
-      console.log(error);
-
-    }
-  }
+  // const [loadedMsgData, setLoadedMsgData] = useState([])
+  // const myId = sessionStorage.getItem('userid')
 
 
-  useEffect(() => {
-    getUserProfile()
-    loadMessages()
-  }, [id])
+  // const messageData = new FormData();
+  // messageData.append('text', message)
+
+
+  // const sendmessage = async (e) => {
+  //   e.preventDefault()
+  //   try {
+  //     await sendMessageAPI(id, messageData);
+  //     loadMessages()
+  //     setMessage("")
+
+  //   } catch (error) {
+  //     console.log(error);
+  //     alert("Server Error! Unable to send message")
+
+  //   }
+  // }
+
+
+
+  // const loadMessages = async () => {
+  //   try {
+  //     const result = await loadMessageAPI(id)      
+  //     setLoadedMsgData(result?.data)
+
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+
+
+  // const getUserProfile = async () => {
+  //   try {
+  //     const result = await viewaUserProfileAPI(id);
+  //     setUserData(result?.data)
+
+  //   } catch (error) {
+  //     console.log(error);
+
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   getUserProfile()
+  //   loadMessages()
+  // }, [peerId])
 
 
   return (
@@ -95,24 +169,13 @@ function ChatBox() {
 
       {/* MESSAGE BOX--------------------------------------------------- */}
       <div className={styles.chatBody}>
-        {loadedMsgData?.map((msg, index) => {
-          if (msg?.sender === myId) {
-            // My message (sent)
-            return (
-              <div className={`${styles.message} ${styles.own}`} key={index}>
+        {messages?.map(msg => {
+          const isMine = msg.sender === user._id;
+          return(
+            <div className={`${styles.message} ${isMine? styles.own : ''}`} key={msg._id}>
                 {msg?.text}
-              </div>
-            );
-          } else if (msg?.receiver === myId) {
-            //  message (received)
-            return (
-              <div className={styles.message} key={index}>
-                {msg?.text}
-              </div>
-            );
-          }
-
-          return null; // If neither, don't render
+           </div>
+          )
         })}
       </div>
 
@@ -120,18 +183,18 @@ function ChatBox() {
 
 
       <div>
-        <form className={styles.chatInput} onSubmit={sendmessage}>
+        <form className={styles.chatInput} onSubmit={onSubmit}>
 
-          <div className={styles.customFileUpload}>
+          {/* <div className={styles.customFileUpload}>
             <label htmlFor="fileInput" className={styles.fileLabel}>
               <i class="fa-solid fa-image"></i>
             </label>
             <input id="fileInput" type="file" accept="image/*" className={styles.fileInput} onChange={(e) => console.log(e.target.files[0])} />
-          </div>
+          </div> */}
 
-          <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Type a message..." className={styles.messageInput} />
+          <input type="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="Type a message..." className={styles.messageInput} />
 
-          <button type="submit" disabled={!message} className='btn btn-primary px-4'>Send</button>
+          <button type="submit" disabled={!text.trim()} className='btn btn-primary px-4'>Send</button>
         </form>
       </div>
 
