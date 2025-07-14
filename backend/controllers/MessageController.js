@@ -28,7 +28,7 @@ exports.getUserMessageController = async (req, res) => {
                 { sender: myId, receiver: userToChat },
                 { sender: userToChat, receiver: myId }
             ]
-        })
+        }).sort('timestamp')
 
         res.status(200).json(messages)
 

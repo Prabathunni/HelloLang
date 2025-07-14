@@ -2,9 +2,20 @@ const express = require('express')
 const cors = require('cors')
 const router = require('./Routes/router')
 const cookieParser = require('cookie-parser')
-const { app, server } = require('./services/socket')
 require('dotenv').config()
 require('./config/db')
+const http = require('http');
+const setupSocket = require('./services/socket.js');
+
+
+
+const app = express()
+
+const server = http.createServer(app);
+setupSocket(server)
+
+
+PORT = process.env.PORT || 3000
 
 
 // middleware
@@ -26,7 +37,6 @@ app.use((err, req, res, next) => {
 });
 
 
-PORT = process.env.PORT || 3000
 
 
 app.get('/',(req,res)=>{
