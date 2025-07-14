@@ -2,9 +2,10 @@ const express = require('express')
 const cors = require('cors')
 const router = require('./Routes/router')
 const cookieParser = require('cookie-parser')
+const { app, server } = require('./services/socket')
 require('dotenv').config()
 require('./config/db')
-const app = express()
+
 
 // middleware
 app.use(express.json())
@@ -32,7 +33,7 @@ app.get('/',(req,res)=>{
     res.send("HELLOLANG Server running...")
 })
 
-app.listen( PORT,()=>{
+server.listen( PORT,()=>{
     console.log(`Server is running on port ${PORT}`);
     
 })
