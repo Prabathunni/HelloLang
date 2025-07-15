@@ -14,14 +14,13 @@ function setupSocket(server) {
   io.use(async (socket, next) => {
     try {
       const rawCookie = socket.handshake.headers.cookie;
-      console.log("Received cookie:", rawCookie);
 
       const token = rawCookie
         ?.split('; ')
         .find(c => c.startsWith('token='))
         ?.split('=')[1];
 
-      
+
       if (!token) {
         console.log("❌ No token found in cookie");
         return next(new Error("Token missing"));
@@ -43,6 +42,8 @@ function setupSocket(server) {
     }
   });
 
+
+
   io.on('connection', socket => {
     const me = socket.user._id.toString();
     console.log(`🟢 ${socket.user.username} connected`);
@@ -60,10 +61,34 @@ function setupSocket(server) {
       socket.emit('receiveMessage', msg);
     });
 
+    // calll----------------------
+    // #1 Caller → Server → Callee: forward the SDP offer
+    socket.on('callUser', ({ userToCall, signalData }) => {
+      io.to(userToCall).emit('callUser', {
+        from: me,
+        signal: signalData
+      })
+    })
+
+    // #2 Callee → Server → Caller: forward the SDP answer
+    socket.on('answerCall', ({ to, signal }) => {
+      io.to(to).emit('callAccepted', signal);
+    })
+
+    // #3 Hang up: notify the other peer to tear down
+    socket.on('endCall', ({ to }) => {
+      io.to(to).emit('endCall');
+    });
+
+
     socket.on('disconnect', () => {
       console.log(`🔴 ${socket.user.username} disconnected`);
     });
+
+    
   });
+
+
 }
 
 module.exports = setupSocket;

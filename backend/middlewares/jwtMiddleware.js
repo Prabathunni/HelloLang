@@ -2,11 +2,11 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const jwtMiddleware = (req, res, next) => {
-    console.log("Inside JWT middleware (cookie-based)");
+    console.log("Inside JWT middleware ");
 
     try {
         // Get token from cookie
-        const token = req.cookies.token;
+        const token = req.cookies.token;        
 
         if (!token) {
             return res.status(401).json({ message: "Unauthorized: No token provided in cookie" });
