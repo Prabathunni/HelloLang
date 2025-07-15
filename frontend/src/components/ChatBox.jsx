@@ -5,18 +5,19 @@ import { loadMessageAPI, sendMessageAPI, viewaUserProfileAPI } from '../services
 import { useSocket } from '../contexts/SocketContext';
 import { useAuth } from '../contexts/AuthContext';
 
+
+
 function ChatBox() {
 
   const { id:peerId } = useParams()
   const { user } = useAuth();
-  const { socket } = useSocket();
-
-  console.log(user);
-  
+  const { socket } = useSocket();  
 
   const [text, setText] = useState('');
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
+
+  // const [showVideo, setShowVideo] = useState(false)
 
 
   useEffect(()=>{
@@ -47,6 +48,7 @@ function ChatBox() {
       if( (msg.sender === peerId && msg.receiver === user._id) || (msg.sender === user._id && msg.receiver === peerId) ) {
         setMessages(prev => [...prev, msg])
       }
+      
     };
 
     socket.on('receiveMessage', handleIncoming);
@@ -82,62 +84,7 @@ function ChatBox() {
     }
   }
 
-
-
-
-
-  // const [loadedMsgData, setLoadedMsgData] = useState([])
-  // const myId = sessionStorage.getItem('userid')
-
-
-  // const messageData = new FormData();
-  // messageData.append('text', message)
-
-
-  // const sendmessage = async (e) => {
-  //   e.preventDefault()
-  //   try {
-  //     await sendMessageAPI(id, messageData);
-  //     loadMessages()
-  //     setMessage("")
-
-  //   } catch (error) {
-  //     console.log(error);
-  //     alert("Server Error! Unable to send message")
-
-  //   }
-  // }
-
-
-
-  // const loadMessages = async () => {
-  //   try {
-  //     const result = await loadMessageAPI(id)      
-  //     setLoadedMsgData(result?.data)
-
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
-
-
-  // const getUserProfile = async () => {
-  //   try {
-  //     const result = await viewaUserProfileAPI(id);
-  //     setUserData(result?.data)
-
-  //   } catch (error) {
-  //     console.log(error);
-
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   getUserProfile()
-  //   loadMessages()
-  // }, [peerId])
-
+  
 
   return (
     <div className={styles.chatBox}>
@@ -160,7 +107,9 @@ function ChatBox() {
             </div>
           </div>
 
-          <button className='btn text-dark'><i class="fa-solid fa-xl fa-video fa-flip-horizontal"></i></button>
+
+          <button className='btn text-dark' onClick={()=> alert("Feature Coming soon")}><i class="fa-solid fa-xl fa-video fa-flip-horizontal"></i></button>
+
 
         </div>
 
@@ -198,6 +147,14 @@ function ChatBox() {
         </form>
       </div>
 
+
+
+      {/* video comp----------------------- */}
+
+      {/* {showVideo && (
+        <VideoCall peerId={peerId} onClose={()=>setShowVideo(false)}/>
+      )}
+ */}
 
 
     </div>

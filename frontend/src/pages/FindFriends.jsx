@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import './FindFriends.css';
 import { Link } from 'react-router-dom';
-import { getAllUsersAPI } from '../services/appServices';
+import { getAllUsersAPI, sendFriendReqAPI } from '../services/appServices';
 import { useEffect } from 'react';
 
 function FindFriends() {
   const [search, setSearch] = useState("");
 
   const [usersData, setUsersData] = useState([])
+  const [requestSend, setRequestSend] = useState([])
 
 
   const getAllUsers = async () => {
@@ -21,7 +22,21 @@ function FindFriends() {
     }
   }
 
+  const sendRequest = async (id)=>{
+    try {
+      const result = await sendFriendReqAPI(id)
+      alert(result?.data?.message)
+      console.log(result);
+      setRequestSend(prev => [...prev, id])
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
 
+  console.log(requestSend);
+  
   const filtered = usersData.filter(friend =>
     friend.username.toLowerCase().includes(search.toLowerCase())
   );
@@ -79,7 +94,7 @@ function FindFriends() {
                   </div>
                 </Link>
                 <div className="text-center mt-3 mb-3">
-                  <button className="btn btn-request">Send Request</button>
+                  <button disabled={requestSend.includes(friend?._id)} onClick={()=>sendRequest(friend?._id)} className={requestSend.includes(friend?._id)?'btn btn-outline-secondary':'btn btn-success'}>{requestSend.includes(friend?._id)?'Request Sent':'Sent Request'}</button>
                 </div>
 
               </div>

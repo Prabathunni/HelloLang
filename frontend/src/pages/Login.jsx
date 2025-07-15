@@ -9,7 +9,7 @@ function Login() {
 
   const { connectSocket } = useSocket()
   const navigate = useNavigate()
-  const { setUser, setIsUserLoggedIn, user } = useAuth();
+  const { setUser, setIsUserLoggedIn } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -18,10 +18,8 @@ function Login() {
     e.preventDefault();
 
     try {
-      if (!username || !password) {
-        alert('Provide All Inputs')
-      }
-
+      if (!username || !password) return alert('Provide All Inputs')
+ 
       const loginData = {
         username,
         password
@@ -55,11 +53,8 @@ function Login() {
       alert(error.response.data.message)
     }
   }
-
-  console.log(user);
    
   
-
 
   return (
     <div className="form-wrapper d-flex align-items-center vh-100 justify-content-center px-3">

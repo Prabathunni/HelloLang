@@ -143,4 +143,42 @@ export const loadMessageAPI = async (userID) => {
 
 
 
+// send req
+export const sendFriendReqAPI = async (userID) => {
+    try {
+        const result = await axios.post(`${server_url}/api/friends/${userID}/request`, {}, { withCredentials: true })
+        return result
+        
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}
+
+// accept friend
+export const acceptReqAPI = async (userID) => {
+    try {
+        const result = await axios.put(`${server_url}/api/friends/${userID}/accept`, {}, { withCredentials: true })
+        return result
+        
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}
+
+// accept friend
+export const rejectReqAPI = async (userID) => {
+    try {
+        const result = await axios.delete(`${server_url}/api/friends/${userID}/reject`, { withCredentials: true })
+        return result
+        
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}
+
+
+
 

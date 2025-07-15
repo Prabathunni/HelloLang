@@ -2,7 +2,7 @@ import React from 'react';
 import './FriendRequest.module.css';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { getMyFriendReqAPI } from '../services/appServices';
+import { acceptReqAPI, getMyFriendReqAPI, rejectReqAPI } from '../services/appServices';
 import { useEffect } from 'react';
 
 function FriendRequests() {
@@ -20,6 +20,33 @@ function FriendRequests() {
       
     }
   }
+
+
+  const acceptFriend = async (id) => {
+    try {
+        const result = await acceptReqAPI(id)
+        alert(result?.data)
+        getMyRequests()
+        
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
+  const rejectFriend = async (id) => {
+    try {
+        const result = await rejectReqAPI(id)
+        alert(result?.data)
+        getMyRequests()
+        
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
+  
 
   
 
@@ -52,8 +79,8 @@ function FriendRequests() {
                     <h5 className="mb-0">{user?.username}</h5>
                   </Link>
                   <div className="d-flex gap-2">
-                    <button className="btn btn-sm btn-success">Accept</button>
-                    <button className="btn btn-sm btn-outline-danger">Reject</button>
+                    <button onClick={()=>acceptFriend(user._id)} className="btn btn-sm btn-success">Accept</button>
+                    <button onClick={()=>rejectFriend(user._id)} className="btn btn-sm btn-outline-danger">Reject</button>
                   </div>
                 </div>
               </div>
