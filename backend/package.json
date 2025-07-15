@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "server.cjs",
   "scripts": {
-    "dev": "nodemon server.cjs",
-    "start": "node server.cjs"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",

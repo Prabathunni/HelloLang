@@ -6,8 +6,7 @@ require('dotenv').config()
 require('./config/db.js')
 const http = require('http');
 const setupSocket = require('./services/socket.js');
-
-import path from 'path';
+const path = require('path');
 
 
 
@@ -19,6 +18,7 @@ setupSocket(server)
 
 PORT = process.env.PORT || 3000
 const __dirname = path.resolve();
+
 
 // middleware
 app.use(express.json())
