@@ -9,7 +9,7 @@ export default defineConfig({
   },
   plugins: [
     react(),
-    stdLibBrowser() // ✅ keep this
+    stdLibBrowser() // 
   ],
   resolve: {
     alias: {

@@ -1,7 +1,7 @@
 {
   "name": "hellolang",
   "version": "1.0.0",
-  "description": "**HelloLang** is a full-stack MERN application currently in development. It’s a real-time language-sharing platform where users can connect through live chat, friend requests, and video calls to practice and learn new languages together.",
+  "description": "**HelloLang** is a full-stack MERN application. It's a real-time language-sharing platform where users can connect through live chat, friend requests, and video calls to practice and learn new languages together.",
   "main": "index.js",
   "scripts": {
     "build":"npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
