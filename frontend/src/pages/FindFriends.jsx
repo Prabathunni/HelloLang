@@ -3,6 +3,7 @@ import './FindFriends.css';
 import { Link } from 'react-router-dom';
 import { getAllUsersAPI, sendFriendReqAPI } from '../services/appServices';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 function FindFriends() {
   const [search, setSearch] = useState("");
@@ -24,13 +25,12 @@ function FindFriends() {
 
   const sendRequest = async (id)=>{
     try {
-      const result = await sendFriendReqAPI(id)
-      alert(result?.data?.message)
-      console.log(result);
+      await sendFriendReqAPI(id)
       setRequestSend(prev => [...prev, id])
       
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      toast.error("Request Failed!")
       
     }
   }

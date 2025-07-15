@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { loadMessageAPI, sendMessageAPI, viewaUserProfileAPI } from '../services/appServices';
 import { useSocket } from '../contexts/SocketContext';
 import { useAuth } from '../contexts/AuthContext';
+import { toast } from 'react-toastify';
 
 
 
@@ -80,7 +81,7 @@ function ChatBox() {
       
     } catch (error) {
       console.error('Send message error:', error);
-      alert('Unable to send message');
+      toast.error('Unable to send message');
     }
   }
 
@@ -108,7 +109,7 @@ function ChatBox() {
           </div>
 
 
-          <button className='btn text-dark' onClick={()=> alert("Feature Coming soon")}><i class="fa-solid fa-xl fa-video fa-flip-horizontal"></i></button>
+          <button className='btn text-dark' onClick={()=> toast.warning("Feature Coming soon")}><i class="fa-solid fa-xl fa-video fa-flip-horizontal"></i></button>
 
 
         </div>

@@ -13,6 +13,7 @@ import Footer from './components/Footer'
 import { useAuth } from './contexts/AuthContext'
 import { verifyloginAPI } from './services/appServices'
 import { useEffect } from 'react'
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   const { isUserLoggedIn, setIsUserLoggedIn } = useAuth()
@@ -72,6 +73,19 @@ function App() {
       {/* <Footer /> */}
 
 
+
+      <ToastContainer
+        position="top-center"
+        autoClose={1200}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
 
 
     </>

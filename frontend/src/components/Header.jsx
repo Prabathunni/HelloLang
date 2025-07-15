@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Navbar, Container, Button } from 'react-bootstrap';
+import { Navbar, Container, Button, Toast } from 'react-bootstrap';
 import { LogoutUserAPI } from '../services/appServices';
 import { useAuth } from '../contexts/AuthContext';
 import { useSocket } from '../contexts/SocketContext';
+import { toast } from 'react-toastify';
 
 function Header() {
   const { disconnectSocket } = useSocket()
-  const {setIsUserLoggedIn,setUser} = useAuth()
+  const { setIsUserLoggedIn, setUser } = useAuth()
   const navigate = useNavigate()
   const location = useLocation();
 
@@ -25,16 +26,20 @@ function Header() {
   const logoutUser = async () => {
     try {
       const result = await LogoutUserAPI()
-      alert(result?.data);
-      sessionStorage.clear()
-      setIsUserLoggedIn(false)
-      navigate('/')
-      setUser([])
-      disconnectSocket()
-      
+      toast.success(result?.data);
+      setTimeout(() => {
+        sessionStorage.clear()
+        setIsUserLoggedIn(false)
+        navigate('/')
+        setUser([])
+        disconnectSocket()
+      }, 1000);
+
     } catch (error) {
-      console.log(error);
-      
+      // console.log(error);
+      toast.error('Logout Failed!')
+
+
     }
   }
 

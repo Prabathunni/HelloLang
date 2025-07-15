@@ -5,6 +5,7 @@ import ChatList from '../components/ChatList'
 import { updateProfileAPI, viewaUserProfileAPI } from '../services/appServices';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 
 function MyProfile() {
@@ -34,15 +35,15 @@ function MyProfile() {
 
     try {
       const result = await updateProfileAPI(id, formData)
-      console.log(result);
-      alert(result?.data.message)
+      toast.success(result?.data.message)
       setBio('')
       setLanguagesSpoken([])
       setLanguagesToLearn([])
       setProfilePic(null)
       getUserProfile()
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      toast.error('Update failed')
 
     }
 

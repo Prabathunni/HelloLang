@@ -7,6 +7,8 @@ require('./config/db')
 const http = require('http');
 const setupSocket = require('./services/socket.js');
 
+import path from 'path';
+
 
 
 const app = express()
@@ -16,7 +18,7 @@ setupSocket(server)
 
 
 PORT = process.env.PORT || 3000
-
+const __dirname = path.resolve();
 
 // middleware
 app.use(express.json())
@@ -29,12 +31,23 @@ app.use(router)
 
 // Global error handler — must come AFTER all routes
 app.use((err, req, res, next) => {
-    console.error("🔥 GLOBAL ERROR:", err.stack || err.message);
+    console.error(" GLOBAL ERROR:", err.stack || err.message);
     res.status(500).json({
         success: false,
         error: err.message || 'Something went wrong!',
     });
 });
+
+
+if(process.env.NODE_ENV==='production'){
+    app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+    app.get("*",(req,res)=>{
+        res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"))
+    })
+}
+
+
 
 
 

@@ -1,11 +1,11 @@
 import axios from 'axios'
 
-const server_url='http://localhost:3000';
+let server_url= import.meta.env.MODE ==="development"? 'http://localhost:3000/api' : "/api"
 
 // Register API
 export const RegisterUserApi = async (registerData) => {
     try {
-        const result = await axios.post(`${server_url}/api/auth/register`, registerData)
+        const result = await axios.post(`${server_url}/auth/register`, registerData)
         return result
         
     } catch (error) {
@@ -17,7 +17,7 @@ export const RegisterUserApi = async (registerData) => {
 // Login API
 export const loginUserAPI = async (loginData) => {
     try {
-        const result = await axios.post(`${server_url}/api/auth/login`, loginData, {withCredentials: true})
+        const result = await axios.post(`${server_url}/auth/login`, loginData, {withCredentials: true})
         return result
         
     } catch (error) {
@@ -30,7 +30,7 @@ export const loginUserAPI = async (loginData) => {
 // verify login API 
 export const verifyloginAPI = async () => {
     try {
-        const result = await axios.get(`${server_url}/api/verifylogin`, {withCredentials: true})
+        const result = await axios.get(`${server_url}/verifylogin`, {withCredentials: true})
         return result
         
     } catch (error) {
@@ -43,7 +43,7 @@ export const verifyloginAPI = async () => {
 // logoutUser API 
 export const LogoutUserAPI = async () => {
     try {
-        const result = await axios.get(`${server_url}/api/auth/logout`, {withCredentials: true})
+        const result = await axios.get(`${server_url}/auth/logout`, {withCredentials: true})
         return result
         
     } catch (error) {
@@ -55,7 +55,7 @@ export const LogoutUserAPI = async () => {
 // get all friends API 
 export const getAllFriendsAPI = async () => {
     try {
-        const result = await axios.get(`${server_url}/api/friends/all`, {withCredentials: true})
+        const result = await axios.get(`${server_url}/friends/all`, {withCredentials: true})
         return result
         
     } catch (error) {
@@ -69,7 +69,7 @@ export const getAllFriendsAPI = async () => {
 // get all user API  
 export const getAllUsersAPI = async () => {
     try {
-        const result = await axios.get(`${server_url}/api/users`, {withCredentials: true})
+        const result = await axios.get(`${server_url}/users`, {withCredentials: true})
         return result
         
     } catch (error) {
@@ -82,7 +82,7 @@ export const getAllUsersAPI = async () => {
 // get all friends API 
 export const getMyFriendReqAPI = async () => {
     try {
-        const result = await axios.get(`${server_url}/api/friends`, {withCredentials: true})
+        const result = await axios.get(`${server_url}/friends`, {withCredentials: true})
         return result
         
     } catch (error) {
@@ -94,7 +94,7 @@ export const getMyFriendReqAPI = async () => {
 // get a user profile API
 export const viewaUserProfileAPI = async (userID) => {
     try {
-        const result = await axios.get(`${server_url}/api/user/${userID}`, {withCredentials: true})
+        const result = await axios.get(`${server_url}/user/${userID}`, {withCredentials: true})
         return result
         
     } catch (error) {
@@ -107,7 +107,7 @@ export const viewaUserProfileAPI = async (userID) => {
 // update my profile API
 export const updateProfileAPI = async (userID,formData) => {
     try {
-        const result = await axios.put(`${server_url}/api/user/${userID}`, formData, {withCredentials: true})
+        const result = await axios.put(`${server_url}/user/${userID}`, formData, {withCredentials: true})
         return result
         
     } catch (error) {
@@ -119,7 +119,7 @@ export const updateProfileAPI = async (userID,formData) => {
 // send message api
 export const sendMessageAPI = async (userID,formData) => {
     try {
-        const result = await axios.post(`${server_url}/api/messages/${userID}/send`, formData, {withCredentials: true})
+        const result = await axios.post(`${server_url}/messages/${userID}/send`, formData, {withCredentials: true})
         return result
         
     } catch (error) {
@@ -132,7 +132,7 @@ export const sendMessageAPI = async (userID,formData) => {
 // load messages api
 export const loadMessageAPI = async (userID) => {
     try {
-        const result = await axios.get(`${server_url}/api/messages/${userID}`, {withCredentials: true})
+        const result = await axios.get(`${server_url}/messages/${userID}`, {withCredentials: true})
         return result
         
     } catch (error) {
@@ -146,7 +146,7 @@ export const loadMessageAPI = async (userID) => {
 // send req
 export const sendFriendReqAPI = async (userID) => {
     try {
-        const result = await axios.post(`${server_url}/api/friends/${userID}/request`, {}, { withCredentials: true })
+        const result = await axios.post(`${server_url}/friends/${userID}/request`, {}, { withCredentials: true })
         return result
         
     } catch (error) {
@@ -158,7 +158,7 @@ export const sendFriendReqAPI = async (userID) => {
 // accept friend
 export const acceptReqAPI = async (userID) => {
     try {
-        const result = await axios.put(`${server_url}/api/friends/${userID}/accept`, {}, { withCredentials: true })
+        const result = await axios.put(`${server_url}/friends/${userID}/accept`, {}, { withCredentials: true })
         return result
         
     } catch (error) {
@@ -170,7 +170,7 @@ export const acceptReqAPI = async (userID) => {
 // accept friend
 export const rejectReqAPI = async (userID) => {
     try {
-        const result = await axios.delete(`${server_url}/api/friends/${userID}/reject`, { withCredentials: true })
+        const result = await axios.delete(`${server_url}/friends/${userID}/reject`, { withCredentials: true })
         return result
         
     } catch (error) {

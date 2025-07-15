@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { acceptReqAPI, getMyFriendReqAPI, rejectReqAPI } from '../services/appServices';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 function FriendRequests() {
 
@@ -25,11 +26,12 @@ function FriendRequests() {
   const acceptFriend = async (id) => {
     try {
         const result = await acceptReqAPI(id)
-        alert(result?.data)
+        toast.success(result?.data)
         getMyRequests()
         
     } catch (error) {
       console.log(error);
+      toast.error
       
     }
   }
@@ -37,7 +39,7 @@ function FriendRequests() {
   const rejectFriend = async (id) => {
     try {
         const result = await rejectReqAPI(id)
-        alert(result?.data)
+        toast.success(result?.data)
         getMyRequests()
         
     } catch (error) {

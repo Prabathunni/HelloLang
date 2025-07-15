@@ -4,6 +4,7 @@ import './Register.css'
 import { loginUserAPI } from '../services/appServices';
 import { useAuth } from '../contexts/AuthContext';
 import { useSocket } from '../contexts/SocketContext';
+import { toast } from 'react-toastify';
 
 function Login() {
 
@@ -18,8 +19,8 @@ function Login() {
     e.preventDefault();
 
     try {
-      if (!username || !password) return alert('Provide All Inputs')
- 
+      if (!username || !password) return toast.warning('Provide All Inputs')
+
       const loginData = {
         username,
         password
@@ -35,26 +36,24 @@ function Login() {
 
 
         setUser(userData)
-        setIsUserLoggedIn(true)
 
-        alert(result?.data.message)
-        navigate('/findFriends')
-        connectSocket()
+        toast.success(result?.data.message)
+        setTimeout(() => {
+          setIsUserLoggedIn(true)
+          navigate('/findFriends')
+          connectSocket()
+        }, 1200);
 
-        
-      } else {
-        console.log("No userId provided");
 
       }
 
-
     } catch (error) {
-      console.log(error);
-      alert(error.response.data.message)
+      // console.log(error);
+      toast.error(error.response.data.message)
     }
   }
-   
-  
+
+
 
   return (
     <div className="form-wrapper d-flex align-items-center vh-100 justify-content-center px-3">

@@ -16,7 +16,7 @@ export function SocketProvider({ children }) {
 
     const connectSocket = () => {
         if (!socketRef.current && user) {
-            socketRef.current = io('http://localhost:3000', {
+            socketRef.current = io(import.meta.env.MODE ==="development"? 'http://localhost:3000' : "/", {
                 withCredentials: true
             })
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './Register.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { RegisterUserApi } from '../services/appServices';
+import { toast } from 'react-toastify';
 
 
 function Register() {
@@ -17,7 +18,7 @@ function Register() {
 
     try {
       if(!username || !email || !password){
-        alert('Provide all inputs')
+        return toast.warning('Provide all inputs')
       }
       const registerData = {
         username,
@@ -26,13 +27,13 @@ function Register() {
       }
 
       const result = await RegisterUserApi(registerData);
-      alert(result?.data.message);
+      toast.success(result?.data.message);
       navigate('/login')
       
       
     } catch (error) {
       // console.log(error);
-      alert(error.response.data.message)
+      toast.error(error.response.data.message)
 
       
     }
