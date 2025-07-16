@@ -17,7 +17,6 @@ setupSocket(server)
 
 
 PORT = process.env.PORT || 3000
-const __dirname = path.resolve();
 
 
 // middleware
